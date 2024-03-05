@@ -17,11 +17,13 @@ try:
     # Load environment variables
     openai_key = os.getenv("OPENAI_API_KEY")
     slack_bot_token = os.getenv("SLACK_BOT_TOKEN")
+    slack_app_token = os.getenv("SLACK_APP_TOKEN")
     print("Open AI Key:", openai_key)
     print("Slack Bot Token:", slack_bot_token)
+    print("Slack App Token:", slack_app_token)
 
     # Check the validity of environment variables
-    if not openai_key or not slack_bot_token:
+    if not openai_key or not slack_bot_token or not slack_app_token:
         raise ValueError("One or more required environment variables are missing or empty")
 
     # Use variables
