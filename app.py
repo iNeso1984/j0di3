@@ -5,13 +5,36 @@ from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 import openai
 
-# Load environment variables from .env file
+# Load the .env file
 load_dotenv()
 
-# Initialize OpenAI client with your API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Check for file existence
+try:
+    # Check for .env file existence
+    if not os.path.exists(".env"):
+        raise ValueError(".env file not found")
 
-app = App(token=os.getenv("SLACK_BOT_TOKEN"))
+    # Load environment variables
+    openai_key = os.getenv("OPENAI_API_KEY")
+    slack_bot_token = os.getenv("SLACK_BOT_TOKEN")
+    slack_app_token = os.getenv("SLACK_APP_TOKEN")
+    print("Open AI Key:", openai_key)
+    print("Slack Bot Token:", slack_bot_token)
+    print("Slack App Token:", slack_app_token)
+
+    # Check the validity of environment variables
+    if not openai_key or not slack_bot_token or not slack_app_token:
+        raise ValueError("One or more required environment variables are missing or empty")
+
+    # Use variables
+    openai.api_key = openai_key
+    app = App(token=slack_bot_token)
+
+    # Additional checks or usage
+
+except ValueError as e:
+    print(f"Error: {e}")
+
 
 # Load the system message from the JSON file
 with open('system_message.json', 'r') as file:
